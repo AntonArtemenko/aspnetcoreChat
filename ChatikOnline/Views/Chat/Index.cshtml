@@ -1,0 +1,45 @@
+﻿
+@model ChatikOnline.Models.MessageHistory
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            <for method="post">
+                <input type="text" id="userInput" />
+                <br />
+                <input type="text" id="messageInput" />
+                <input type="button" id="sendButton" value="Send Message" />
+            </for>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#sendButton").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "Chat/AddMessage",
+                data: {
+                    UserName: $("#userInput").val(),
+                    MessageText: $("#messageInput").val()
+                }
+            })
+        });
+    });
+</script>

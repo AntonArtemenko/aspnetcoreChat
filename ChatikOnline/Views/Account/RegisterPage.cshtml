@@ -1,0 +1,27 @@
+﻿@model ChatikOnline.Models.User
+<h2>Регистрация нового пользователя</h2>
+<div class="col-6">
+    <for method="post">
+        <input type="text" id="loginInput" />
+        <br />
+        <input type="text" id="passwordInput" />
+        <input type="button" id="registrateButton" value="Register" />
+    </for>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#registrateButton").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "Account/Registrate",
+                data: {
+                    UserName: $("#loginInput").val(),
+                    Password: $("#passwordInput").val()
+                }
+            })
+        });
+    });
+</script>
