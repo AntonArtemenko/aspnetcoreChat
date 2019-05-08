@@ -1,27 +1,29 @@
-﻿@model ChatikOnline.Models.User
+﻿@model ChatikOnline.Views.Account.ViewModel.RegisterViewModel
 <h2>Регистрация нового пользователя</h2>
-<div class="col-6">
-    <for method="post">
-        <input type="text" id="loginInput" />
-        <br />
-        <input type="text" id="passwordInput" />
-        <input type="button" id="registrateButton" value="Register" />
-    </for>
-</div>
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" required />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="UserName"></label><br />
+        <input asp-for="UserName" required />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" required />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="PasswordConfirm"></label><br />
+        <input asp-for="PasswordConfirm" required  />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+    <div>
+        <input type="submit" value="Регистрация" />
+    </div>
+</form>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $("#registrateButton").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "Account/Registrate",
-                data: {
-                    UserName: $("#loginInput").val(),
-                    Password: $("#passwordInput").val()
-                }
-            })
-        });
-    });
-</script>

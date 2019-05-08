@@ -10,11 +10,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using ChatikOnline.Views.Account.ViewModel;
 
 namespace ChatikOnline.Services
 {
-    public class AccountService: IAccountService
-    { 
+    public class AccountService : IAccountService
+    {
         private IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -27,22 +28,57 @@ namespace ChatikOnline.Services
             _signInManager = signInManager;
         }
 
-        public async Task Register(User user)
+        public async Task Register(RegisterViewModel model)
         {
-            User us = await _userRepository.CheckLogin(user);
-            if (us == null)
+            User user = new User { Email = model.Email, UserName = model.UserName };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
             {
-               var result = await _userManager.CreateAsync(user, user.Password);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, false);
-                }
+                await _signInManager.SignInAsync(user, false);
             }
         }
 
-        public async Task Login(User user)
+        public async Task<bool> RegisterValidation(RegisterViewModel model, Action<string, string> AddModelError)
         {
-            await _signInManager.PasswordSignInAsync(user.Login, user.Password, true, false);
+            User user = await _userRepository.UserValidation(model);
+
+            if (user == null)
+            {
+                return true;
+            }
+
+            if (user.Email != null)
+            {
+                AddModelError("Email", "Account with this email has already exist");
+                return false;
+            }
+
+            if (user.UserName != null)
+            {
+                AddModelError("UserName", "Account with this username has already exist");
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> Login(LoginViewModel model, Action<string, string> AddError)
+        {
+            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                AddError("", "Wrong login or password");
+                return false;
+            }
+        }
+
+        public async Task LogOff()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

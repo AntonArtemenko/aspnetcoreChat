@@ -32,3 +32,5 @@ C:\Users\Антон\source\repos\ChatikOnline\ChatikOnline\obj\Debug\netcoreapp2
 C:\Users\Антон\source\repos\ChatikOnline\ChatikOnline\obj\Debug\netcoreapp2.1\ChatikOnline.csproj.CopyComplete
 C:\Users\Антон\source\repos\ChatikOnline\ChatikOnline\obj\Debug\netcoreapp2.1\Razor\Views\Chat\Index.g.cshtml.cs
 C:\Users\Антон\source\repos\ChatikOnline\ChatikOnline\obj\Debug\netcoreapp2.1\Razor\Views\Account\RegisterPage.g.cshtml.cs
+C:\Users\Антон\source\repos\ChatikOnline\ChatikOnline\obj\Debug\netcoreapp2.1\Razor\Views\Account\LoginPage.g.cshtml.cs
+C:\Users\Антон\source\repos\ChatikOnline\ChatikOnline\obj\Debug\netcoreapp2.1\Razor\Views\Account\Index.g.cshtml.cs

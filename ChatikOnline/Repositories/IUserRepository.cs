@@ -1,4 +1,5 @@
 ﻿using ChatikOnline.Models;
+using ChatikOnline.Views.Account.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace ChatikOnline.Repositories
     {
         Task AddUser(User user);
         IEnumerable<User> Users { get; }
-        Task<User> CheckLogin(User user);
+        Task<User> UserValidation(RegisterViewModel model);
     }
 }

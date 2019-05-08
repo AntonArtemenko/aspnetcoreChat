@@ -1,4 +1,5 @@
 ﻿using ChatikOnline.Models;
+using ChatikOnline.Views.Account.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,12 @@ namespace ChatikOnline.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> CheckLogin(User user) =>
-        await _context.Users.FirstOrDefaultAsync(u => u.Login == user.Login);
+        // Cheking for unique email and username. idk how do not write this code so shitty:). 
+        public async Task<User> UserValidation(RegisterViewModel model)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName || u.Email == model.Email);
+            return user;
+        }
+        
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatikOnline.Models;
 using ChatikOnline.Services;
+using ChatikOnline.Views.Account.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatikOnline.Controllers
@@ -14,7 +15,7 @@ namespace ChatikOnline.Controllers
         public IActionResult Index()
 
         {
-            return View("RegisterPage");
+            return View("Index");
         }
 
         public AccountController(IAccountService accountService)
@@ -22,9 +23,49 @@ namespace ChatikOnline.Controllers
             _accountService = accountService;
         }
 
-        public async Task Registrate(User user)
+
+        [HttpGet]
+        public IActionResult Login()
         {
-            await _accountService.Register(user);
+            return View("LoginPage");
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View("RegisterPage");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            bool result = await _accountService.RegisterValidation(model, ModelState.AddModelError);
+            if (result)
+            { 
+                await _accountService.Register(model);
+                return RedirectToAction("Index", "Account");
+            }
+            return View("RegisterPage");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+            var result = await _accountService.Login(model, ModelState.AddModelError);
+            if (result)
+            {
+                return RedirectToAction("Index", "Chat");
+            }
+            return View("LoginPage");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            // удаляем аутентификационные куки
+            await _accountService.LogOff();
+            return RedirectToAction("LoginPage", "Account");
         }
     }
 }

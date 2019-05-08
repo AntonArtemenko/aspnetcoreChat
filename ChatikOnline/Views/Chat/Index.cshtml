@@ -6,8 +6,6 @@
         <div class="col-6">&nbsp;</div>
         <div class="col-6">
             <for method="post">
-                <input type="text" id="userInput" />
-                <br />
                 <input type="text" id="messageInput" />
                 <input type="button" id="sendButton" value="Send Message" />
             </for>
@@ -24,6 +22,9 @@
             <ul id="messagesList"></ul>
         </div>
     </div>
+    <form method="post" asp-controller="Account" asp-action="LogOff">
+        <input type="submit" value="Log off" />
+    </form>
 </div>
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
@@ -36,7 +37,6 @@
                 type: "POST",
                 url: "Chat/AddMessage",
                 data: {
-                    UserName: $("#userInput").val(),
                     MessageText: $("#messageInput").val()
                 }
             })

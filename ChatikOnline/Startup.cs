@@ -49,7 +49,6 @@ namespace ChatikOnline
                 opts.Password.RequireDigit = false;
                 opts.Password.RequireNonAlphanumeric = false;
                 opts.Password.RequiredLength = 1;
-                opts.User.AllowedUserNameCharacters = "qwerty";
             })
                 .AddEntityFrameworkStores<ChatContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -58,6 +57,7 @@ namespace ChatikOnline
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountService, AccountService>();
+//          services.AddTransient<IValidationDictionary, ModelStateWrapper>();
             services.AddSignalR();
         }
 

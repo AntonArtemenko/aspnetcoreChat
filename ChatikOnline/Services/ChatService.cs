@@ -1,5 +1,6 @@
 ﻿using ChatikOnline.Models;
 using ChatikOnline.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace ChatikOnline.Services
     public class ChatService: IChatService
     {
         private IMessageRepository _messageRepository;
+        private IHubContext<ChatHub> hubContext;
 
         public ChatService(IMessageRepository messageRepository)
         {
