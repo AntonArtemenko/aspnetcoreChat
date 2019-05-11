@@ -31,11 +31,7 @@ namespace ChatikOnline.Services
         public async Task Register(RegisterViewModel model)
         {
             User user = new User { Email = model.Email, UserName = model.UserName };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-            }
+            await _userManager.CreateAsync(user, model.Password);
         }
 
         public async Task<bool> RegisterValidation(RegisterViewModel model, Action<string, string> AddModelError)

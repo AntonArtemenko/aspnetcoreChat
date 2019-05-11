@@ -43,7 +43,7 @@ namespace ChatikOnline.Controllers
             if (result)
             { 
                 await _accountService.Register(model);
-                return RedirectToAction("Index", "Account");
+                return View("LoginPage");
             }
             return View("RegisterPage");
         }
@@ -65,7 +65,7 @@ namespace ChatikOnline.Controllers
         {
             // удаляем аутентификационные куки
             await _accountService.LogOff();
-            return RedirectToAction("LoginPage", "Account");
+            return View("LoginPage");
         }
     }
 }

@@ -1,34 +1,25 @@
-﻿
+﻿@{
+    Layout = null;
+}
+
+
+<h1>Чатимся пацаны</h1>
 @model ChatikOnline.Models.MessageHistory
-<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">&nbsp;</div>
-        <div class="col-6">
-            <for method="post">
-                <input type="text" id="messageInput" />
-                <input type="button" id="sendButton" value="Send Message" />
-            </for>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <hr />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">&nbsp;</div>
-        <div class="col-6">
-            <ul id="messagesList"></ul>
-        </div>
-    </div>
-    <form method="post" asp-controller="Account" asp-action="LogOff">
-        <input type="submit" value="Log off" />
+<div class="signalr-demo">
+    <form id="message-form">
+        <input type="text" id="message-box" />
+        <input type="submit" value="Отправить" />
     </form>
+    <ul id="messages"></ul>
+</div>
+
+<form method="post" asp-controller="Account" asp-action="LogOff">
+    <input type="submit" value="Log off" />
+</form>
 </div>
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -41,5 +32,34 @@
                 }
             })
         });
+    });
+</script>
+
+<script>
+    const messageForm =
+        document.getElementById('message-form');
+    const messageBox = document.getElementById('message-box');
+    const messages = document.getElementById('messages');
+
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chatHub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+    connection.on('newMessage', (sender, messageText) => {
+        console.log(` ${sender} : ${messageText} `);
+        const newMessage = document.createElement('li');
+        newMessage.appendChild(
+            document.createTextNode(` ${sender} : ${messageText} `));
+        messages.appendChild(newMessage);
+    });
+    connection.start()
+        .then(() => console.log('connected!'))
+        .catch(console.error);
+
+    messageForm.addEventListener('submit', ev => {
+        ev.preventDefault();
+        const message = messageBox.value;
+        connection.invoke('SendMessage', message);
+        messageBox.value = '';
     });
 </script>

@@ -57,7 +57,7 @@ namespace ChatikOnline
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountService, AccountService>();
-//          services.AddTransient<IValidationDictionary, ModelStateWrapper>();
+
             services.AddSignalR();
         }
 

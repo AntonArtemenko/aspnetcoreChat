@@ -9,5 +9,6 @@ namespace ChatikOnline.Services
     public interface IChatService
     {
         Task Add(MessageHistory messageHistory);
+        Task SendMessage(string message);
     }
 }

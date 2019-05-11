@@ -9,9 +9,6 @@ namespace ChatikOnline.Models
 {
     public class User: IdentityUser
     {
-        public int UserId { get; set; }
-        public string Login { get; set; }
-        [Required]
-        public string Password { get; set; }
+
     }
 }

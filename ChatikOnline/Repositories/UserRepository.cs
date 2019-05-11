@@ -25,8 +25,7 @@ namespace ChatikOnline.Repositories
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
-
-        // Cheking for unique email and username. idk how do not write this code so shitty:). 
+ 
         public async Task<User> UserValidation(RegisterViewModel model)
         {
             User user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName || u.Email == model.Email);
